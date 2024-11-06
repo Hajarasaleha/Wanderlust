@@ -1,7 +1,7 @@
 if(process.env.NODE_ENV != "production"){
   require("dotenv").config();
 }
-const PORT=process.env.PORT
+const PORT=process.env.PORT || 8080
 const express=require("express");
 const app=express();
 const mongoose=require("mongoose");
@@ -21,8 +21,7 @@ const userRouter=require("./routes/user.js");
 app.engine('ejs', engine);
 app.use(flash());
 
-const dbURL=process.env.ATLASDB_URL;
-
+ const dbURL=process.env.ATLASDB_URL;
 main().then(()=>{
   console.log("connection successfull")
 }).catch(err=>{
@@ -87,7 +86,9 @@ app.use("/listings",listingRouter);
 app.use("/listings/:id/reviews",reviewRouter);
 app.use("/",userRouter)
 
-
+app.get('/', (req, res) => {
+  res.redirect('/listings')
+});
 
 
 app.all("*",(req,res,next)=>{
