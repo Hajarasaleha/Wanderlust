@@ -33,7 +33,14 @@ module.exports.login=async(req,res)=>{
     req.flash("success","Welcome back to Wanderlust");
     redirectUrl=res.locals.redirectUrl || "/listings"
     res.redirect(redirectUrl);
+        // const redirectUrl = req.session.redirectUrl || '/listings';
+        // delete req.session.redirectUrl; // Clear the redirectUrl after using it
+        // res.redirect(redirectUrl);
 }
+
+
+
+
 
 module.exports.logout=(req,res,next)=>{
     req.logout((err)=>{

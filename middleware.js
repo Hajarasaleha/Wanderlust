@@ -4,15 +4,24 @@ const ExpressError= require("./utils/ExpressError.js");
 const {listingSchema}=require("./schema.js");
 const {reviewSchema}=require("./schema.js");
 
-module.exports.isLoggedIn=(req,res,next)=>{
-  console.log(req.user)
-  if(!req.isAuthenticated()){
-    req.session.redirectUrl=req.originalUrl;
-    req.flash("error","You must be logged in to create a new listing")
-    return res.redirect("/login")
+// module.exports.isLoggedIn=(req,res,next)=>{
+//   console.log(req.user)
+//   if(!req.isAuthenticated()){
+//     req.session.redirectUrl=req.originalUrl;
+//     req.flash("error","You must be logged in to create a new listing")
+//     return res.redirect("/login")
+//   }
+//   next()
+// }
+module.exports.isLoggedIn = (req, res, next) => {
+  if (!req.isAuthenticated()) {
+      req.session.redirectUrl = req.originalUrl; // Store the original URL
+      req.flash('error', 'You must be logged in to perform this action');
+      return res.redirect('/login'); // Redirect to login
   }
-  next()
-}
+  next();
+};
+
 
 module.exports.saveRedirectUrl=(req,res,next)=>{
   if(req.session.redirectUrl){
